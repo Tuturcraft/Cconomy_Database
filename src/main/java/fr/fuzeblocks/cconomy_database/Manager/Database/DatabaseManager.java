@@ -4,7 +4,7 @@ public class DatabaseManager {
     private DbConnection moneyconnection;
 
     public DatabaseManager() {
-        this.moneyconnection = new DbConnection(new DbCredentials("node.fuzeblocks.fr","u4_0jwkfZK9m1","lRYLFgn7cdZU2^ZiXb7O.+5i","s4_Economy",3306));
+        this.moneyconnection = new DbConnection(new DbCredentials("your-ip","your-login","your-pass","your-databasename",3306));
     }
     public void close() {
         this.moneyconnection.close();
