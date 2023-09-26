@@ -1,70 +1,60 @@
 package fr.fuzeblocks.cconomy_database.Command;
 
-import fr.fuzeblocks.cconomy_database.CconomyDatabase;
-import fr.fuzeblocks.cconomy_database.Manager.Database.DbConnection;
+import fr.fuzeblocks.cconomy_database.Viewer.MenuViewer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class MoneyCommand implements CommandExecutor {
-    private CconomyDatabase instance;
-    public MoneyCommand(CconomyDatabase instance) {
-        this.instance = instance;
-    }
+import static fr.fuzeblocks.cconomy_database.CconomyDatabase.getConnection;
 
+public class MoneyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (player.hasPermission("Cconomy.commandes.money")) {
-                System.out.println("1");
                 if (args != null && args.length != 0) {
-                    System.out.println("2");
                     if (args.length == 3) {
-                        System.out.println("3");
                         Player target = Bukkit.getPlayerExact(args[1]);
                         UUID targetuuid = target.getUniqueId();
                         if (target != null) {
-                            double money = Double.parseDouble(args[2]);
-                            if (args[0].equalsIgnoreCase("add")) {
-                                try {
+                            if (player.hasPermission("Cconomy.commandes.money.admin")) {
+                                double money = Double.parseDouble(args[2]);
+                                if (args[0].equalsIgnoreCase("add")) {
                                     addMoney(getConnection(), targetuuid, money, player);
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
                                 }
-                            }
-                            if (args[0].equalsIgnoreCase("set")) {
-                                try {
+                                if (args[0].equalsIgnoreCase("set")) {
                                     setMoney(getConnection(), targetuuid, money, player);
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
                                 }
-                            }
-                            if (args[0].equalsIgnoreCase("remove")) {
-                                try {
-                                    removeMoney(getConnection(), targetuuid, money, player);
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
+                                if (args[0].equalsIgnoreCase("remove")) {
+                                    try {
+                                        removeMoney(getConnection(), targetuuid, money, player);
+                                    } catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
+                            } else {
+                                player.sendMessage("§aYou don't have perms");
                             }
                         }  else {
                             player.sendMessage(args[2] + "doesn't exist !");
                         }
                     } else if (args[0].equalsIgnoreCase("solde")){
                             try {
-                                player.sendMessage(String.valueOf(getMoney(getConnection(), player.getUniqueId())));
+                                player.sendMessage("§aYour money is : " + getMoney(getConnection(), player.getUniqueId()));
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
-                        } else {
+                        } else if (args[0].equalsIgnoreCase("menu")) {
+                        MenuViewer.loadMenu(player);
+                    } else {
                         player.sendMessage("§cUsage <player + montant>");
                     }
                 }  else {
@@ -76,17 +66,19 @@ public class MoneyCommand implements CommandExecutor {
         }
         return false;
     }
-    public static void setMoney(Connection connection, UUID uuid, double money, Player player) throws SQLException {
+    public static void setMoney(Connection connection, UUID uuid, double money, Player player) {
         String updateQuery = "UPDATE `players_money` SET `money`=? WHERE `uuid`=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setDouble(1, money);
             preparedStatement.setString(2, uuid.toString());
             preparedStatement.executeUpdate();
-            player.sendMessage("§aSuccess");
+            player.sendMessage("§aYou have well set :" + money + "§a to the player :" + player.getName());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static void addMoney(Connection connection, UUID uuid, double money, Player player) throws SQLException {
+    public static void addMoney(Connection connection, UUID uuid, double money, Player player) {
         String selectQuery = "SELECT `money` FROM `players_money` WHERE `uuid`=?";
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setString(1, uuid.toString());
@@ -99,10 +91,12 @@ public class MoneyCommand implements CommandExecutor {
                         updateStatement.setDouble(1, finalemoney);
                         updateStatement.setString(2, uuid.toString());
                         updateStatement.executeUpdate();
-                        player.sendMessage("§aSuccess");
+                        player.sendMessage("§aYou have well add :" + money + "§a to the player :" + player.getName());
                     }
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -111,9 +105,9 @@ public class MoneyCommand implements CommandExecutor {
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setString(1, uuid.toString());
             try (ResultSet resultmoney = selectStatement.executeQuery()) {
-                if (resultmoney.next()) {
-                    return resultmoney.getDouble("money");
-                }
+                    if (resultmoney.next()) {
+                            return resultmoney.getDouble("money");
+                    }
             }
         }
         return 0.0;
@@ -128,18 +122,15 @@ public class MoneyCommand implements CommandExecutor {
                     double lastmoney = resultmoney.getDouble("money");
                     double finalemoney = lastmoney - money;
                     String updateQuery = "UPDATE `players_money` SET `money`=? WHERE `uuid`=?";
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                    PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
                         updateStatement.setDouble(1, finalemoney);
                         updateStatement.setString(2, uuid.toString());
                         updateStatement.executeUpdate();
-                        player.sendMessage("§aSuccess");
-                    }
+                        player.sendMessage("§aYou have well remove :" + money + "§a to the player :" + player.getName());
+
                 }
             }
         }
     }
-        private Connection getConnection() throws SQLException {
-            final DbConnection moneyconnection = instance.getDatabaseManager().getMoneyconnection();
-            return moneyconnection.getConnection();
-        }
+
     }
