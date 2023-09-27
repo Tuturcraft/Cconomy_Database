@@ -119,7 +119,6 @@ public class ListOnlinePlayer implements Listener {
         if (endIndex < itemsToDisplay.size()) {
             inventory.setItem(53, createNavigationItem(Material.ARROW, "§aPage suivante"));
         }
-
         player.openInventory(inventory);
     }
 
