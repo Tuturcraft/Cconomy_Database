@@ -25,19 +25,20 @@ public class MoneyCompleter implements TabCompleter {
                 }
                 this.args.add("solde");
                 this.args.add("menu");
+                this.args.add("view");
                 return this.args;
             }
             if (args.length == 3) {
                 this.args.clear();
                 if (player.hasPermission("Cconomy.commandes.money.admin")) {
                     this.args.add("0.5");
-                    this.args.add("1");
-                    this.args.add("5");
-                    this.args.add("10");
-                    this.args.add("100");
-                    this.args.add("500");
-                    this.args.add("1000");
-                    this.args.add("5000");
+                    this.args.add("1.0");
+                    this.args.add("5.0");
+                    this.args.add("10.0");
+                    this.args.add("100.0");
+                    this.args.add("500.0");
+                    this.args.add("1000.0");
+                    this.args.add("5000.0");
                     return this.args;
                 }
             }

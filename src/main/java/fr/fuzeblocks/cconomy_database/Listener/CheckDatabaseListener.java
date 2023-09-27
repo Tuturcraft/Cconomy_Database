@@ -22,7 +22,7 @@ public class CheckDatabaseListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) throws SQLException {
         Player player = event.getPlayer();
-        getCr(getConnection(),player.getUniqueId(),100.0,player);
+        getCr(getConnection(),player.getUniqueId(),instance.getConfig().getDouble("Config.defaultmoney"),player);
 
     }
     private Connection getConnection() throws SQLException {
@@ -38,7 +38,7 @@ public class CheckDatabaseListener implements Listener {
             preparedStatement.setString(1, uuid.toString());
             preparedStatement.setDouble(2, money);
             preparedStatement.executeUpdate();
-            Logger.getLogger("Cconomy_Database").info("Successfully created for :" + player.getName());
+            Logger.getLogger("Cconomy").info("Successfully created for : " + player.getName());
             preparedStatement.close();
         }
         getmoney.close();

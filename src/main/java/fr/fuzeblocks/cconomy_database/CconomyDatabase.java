@@ -4,6 +4,7 @@ import fr.fuzeblocks.cconomy_database.Command.MoneyCommand;
 import fr.fuzeblocks.cconomy_database.Completer.MoneyCompleter;
 import fr.fuzeblocks.cconomy_database.Listener.CheckDatabaseListener;
 import fr.fuzeblocks.cconomy_database.Listener.InventoryInteract;
+import fr.fuzeblocks.cconomy_database.Manager.Database.CreateTable;
 import fr.fuzeblocks.cconomy_database.Manager.Database.DatabaseManager;
 import fr.fuzeblocks.cconomy_database.Manager.Database.DbConnection;
 import fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer;
@@ -20,6 +21,7 @@ public final class CconomyDatabase extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         databaseManager = new DatabaseManager(this);
+        new CreateTable(getConnection());
         this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("money").setTabCompleter(new MoneyCompleter());
         Bukkit.getPluginManager().registerEvents(new CheckDatabaseListener(this), this);

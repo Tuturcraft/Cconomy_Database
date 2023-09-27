@@ -4,3 +4,5 @@ Database:
   password: ""
   databasename: "Cconomy"
   port: 3306
+Config:
+  defaultmoney: 100.0 #Must be a double
