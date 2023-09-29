@@ -21,7 +21,7 @@
 
 ## Installation
 
-1. Download the plugin from [Releases](#).
+1. Download the plugin from [Releases](https://modrinth.com/plugin/cconomy-database/versions).
 2. Place the plugin JAR file into your Bukkit/Spigot server's "plugins" folder.
 3. Restart or reload your server.
 
