@@ -1,10 +1,15 @@
 package fr.fuzeblocks.cconomy_database.Command;
 
+import fr.fuzeblocks.cconomy_database.CconomyDatabase;
+import fr.fuzeblocks.cconomy_database.Configuration.Language.LanguageManager;
+import fr.fuzeblocks.cconomy_database.Configuration.Language.LanguageStatus;
 import fr.fuzeblocks.cconomy_database.Viewer.MenuViewer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -17,6 +22,13 @@ import java.util.UUID;
 import static fr.fuzeblocks.cconomy_database.CconomyDatabase.getConnection;
 
 public class MoneyCommand implements CommandExecutor {
+    private CconomyDatabase instance;
+
+    public MoneyCommand(CconomyDatabase instance) {
+        this.instance = instance;
+    }
+    private String key = LanguageManager.getKey();
+    private YamlConfiguration config = LanguageManager.getConfig();
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -25,6 +37,7 @@ public class MoneyCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+
 
         if (!player.hasPermission("Cconomy.commandes.money")) {
             player.sendMessage("§cYou don't have permission.");
@@ -40,7 +53,7 @@ public class MoneyCommand implements CommandExecutor {
 
         if (subCommand.equalsIgnoreCase("solde")) {
             try {
-                player.sendMessage("§aYour money is: " + getMoney(getConnection(), player.getUniqueId()));
+                player.sendMessage(config.getString(key + "Solde") + getMoney(getConnection(), player.getUniqueId()));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -88,7 +101,7 @@ public class MoneyCommand implements CommandExecutor {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    player.sendMessage("§cYou don't have perms");
+                    player.sendMessage("§cYou don't have perms !");
                 }
             }
         } else {

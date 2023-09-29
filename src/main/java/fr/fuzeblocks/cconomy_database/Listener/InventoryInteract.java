@@ -2,10 +2,12 @@ package fr.fuzeblocks.cconomy_database.Listener;
 
 import fr.fuzeblocks.cconomy_database.CconomyDatabase;
 import fr.fuzeblocks.cconomy_database.Command.MoneyCommand;
+import fr.fuzeblocks.cconomy_database.Configuration.Language.LanguageManager;
 import fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer;
 import fr.fuzeblocks.cconomy_database.Utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -105,15 +107,17 @@ public class InventoryInteract implements Listener {
         if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getType().equals(Material.PAPER)) {
             UUID uuid = Bukkit.getPlayerExact(ClickedHead).getUniqueId();
             Player player = (Player) event.getWhoClicked();
+            YamlConfiguration config = LanguageManager.getConfig();
+            String key = LanguageManager.getKey();
             switch (event.getCurrentItem().getItemMeta().getDisplayName().toString()) {
                 case "§a0.5":
                     try {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 0.5) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 0.5);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 0.5);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -124,9 +128,9 @@ public class InventoryInteract implements Listener {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 1.0) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 1.0);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 1.0);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -137,9 +141,9 @@ public class InventoryInteract implements Listener {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 5.0) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 5.0);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 5.0);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -152,9 +156,9 @@ public class InventoryInteract implements Listener {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 10.0) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 10.0);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 10.0);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -166,9 +170,9 @@ public class InventoryInteract implements Listener {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 500.0) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 1000.0);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 1000.0);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -180,9 +184,9 @@ public class InventoryInteract implements Listener {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 1000.0) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 1000.0);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 1000.0);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -193,9 +197,9 @@ public class InventoryInteract implements Listener {
                         if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 5000.0) {
                             MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 5000.0);
                             MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 5000.0);
-                            player.sendMessage("§aTransaction réussie !");
+                            player.sendMessage(config.getString(key + "Pay"));
                         } else {
-                            player.sendMessage("§cVous n'avez pas assez d'argent.");
+                            player.sendMessage(config.getString(key + "NoMoney"));
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
