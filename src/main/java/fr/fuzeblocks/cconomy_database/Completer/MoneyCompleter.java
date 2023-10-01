@@ -1,12 +1,8 @@
 package fr.fuzeblocks.cconomy_database.Completer;
-
-import jdk.internal.org.jline.reader.ParsedLine;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-
-import javax.swing.text.PlainDocument;
 import java.util.ArrayList;
 import java.util.List;
 

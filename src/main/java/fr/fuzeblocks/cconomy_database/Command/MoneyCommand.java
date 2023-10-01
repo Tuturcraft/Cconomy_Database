@@ -167,7 +167,6 @@ public class MoneyCommand implements CommandExecutor {
                         updateStatement.setDouble(1, finalemoney);
                         updateStatement.setString(2, uuid.toString());
                         updateStatement.executeUpdate();
-
                 }
             }
         }

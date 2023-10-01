@@ -4,7 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class EN_FR extends LanguageManager{
+public class EN_FR extends LanguageManager {
     public EN_FR(YamlConfiguration file, File file1) {
         super(file, file1);
     }

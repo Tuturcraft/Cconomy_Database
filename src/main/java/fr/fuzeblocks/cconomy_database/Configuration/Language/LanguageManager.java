@@ -16,11 +16,13 @@ public class LanguageManager <T> {
         this.file1 = file1;
     }
     public void addIndex (String index,T objects) {
-        file.set(index,objects);
-        try {
-            file.save(file1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!file.contains(index)) {
+            file.set(index, objects);
+            try {
+                file.save(file1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -30,10 +32,10 @@ public class LanguageManager <T> {
     public static void setKeyAndConfig(LanguageStatus languageStatus, CconomyDatabase instance) {
         if (languageStatus.equals(LanguageStatus.EN_US)) {
             key = "EN_US.";
-            config = YamlConfiguration.loadConfiguration(CconomyDatabase.getEN_US(instance));
+            config = YamlConfiguration.loadConfiguration(CconomyDatabase.getEN(instance,"EN_US"));
         } else if (languageStatus.equals(LanguageStatus.EN_FR)) {
             key = "EN_FR.";
-            config = YamlConfiguration.loadConfiguration(CconomyDatabase.getEN_FR(instance));
+            config = YamlConfiguration.loadConfiguration(CconomyDatabase.getEN(instance,"EN_FR"));
         }
     }
     public static String getKey() {
@@ -44,11 +46,13 @@ public class LanguageManager <T> {
         return config;
     }
     public void createSection(String index) {
-        file.createSection(index);
-        try {
-            file.save(file1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!file.contains(index)) {
+            file.createSection(index);
+            try {
+                file.save(file1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
