@@ -17,6 +17,5 @@ public class EN_FR extends LanguageManager {
         super.addIndex(key + "Pay","§aTransaction réussis");
         super.addIndex(key + "NoMoney","§cVous n'avez pas assez d'argent.");
         super.addIndex(key + "PayInventoryName","§aMontant");
-        super.addIndex(key + "View","L'argent du joueur est de : ");
     }
 }
