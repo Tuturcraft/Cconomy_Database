@@ -5,6 +5,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getLogger;
 
@@ -30,6 +31,10 @@ public class Expansion extends PlaceholderExpansion {
         if (player == null) {
             return "";
         }
+        if (identifier.equals("uuid")) {
+            return  player.getUniqueId().toString();
+        }
+
         if (identifier.equals("money")) {
             double money = 0;
             try {

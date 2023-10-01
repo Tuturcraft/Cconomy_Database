@@ -4,6 +4,8 @@ main: fr.fuzeblocks.cconomy_database.CconomyDatabase
 api-version: '1.16'
 load: STARTUP
 authors: [fuzeblocks]
+depend:
+  - PlaceholderAPI
 commands:
   money:
     description: A money command

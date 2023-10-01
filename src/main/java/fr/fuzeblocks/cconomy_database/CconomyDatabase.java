@@ -13,6 +13,7 @@ import fr.fuzeblocks.cconomy_database.Manager.Database.DatabaseManager;
 import fr.fuzeblocks.cconomy_database.Manager.Database.DbConnection;
 import fr.fuzeblocks.cconomy_database.PlaceHolder.Expansion;
 import fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer;
+import fr.fuzeblocks.cconomy_database.Update.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,6 +47,7 @@ public final class CconomyDatabase extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CheckDatabaseListener(this), this);
         Bukkit.getPluginManager().registerEvents(new InventoryInteract(this), this);
         Bukkit.getPluginManager().registerEvents(new ListOnlinePlayer(this), this);
+        getUpdate(112899);
     }
 
     @Override
@@ -66,6 +68,15 @@ public final class CconomyDatabase extends JavaPlugin {
         }
     }
 
+    public void getUpdate(int id) {
+        new UpdateChecker(this, id).getVersion(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                getLogger().info("There is not a new update available.");
+            } else {
+                getLogger().info("There is a new update available.");
+            }
+        });
+    }
     public void getLanguage() {
         ConfigurationSection config = this.getConfig();
         int language = config.getInt("Config.Language");
