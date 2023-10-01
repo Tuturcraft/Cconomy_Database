@@ -6,7 +6,7 @@
 
     <groupId>fr.fuzeblocks</groupId>
     <artifactId>Cconomy_Database</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <name>Cconomy Database</name>

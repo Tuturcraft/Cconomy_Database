@@ -62,7 +62,7 @@ public class MoneyCommand implements CommandExecutor {
         } else if (subCommand.equalsIgnoreCase("view")) {
             if (args.length == 2) {
                 try {
-                   player.sendMessage("The player's money: " + args[1]  + "§ais : "+ getMoney(getConnection(), Objects.requireNonNull(Bukkit.getPlayerExact(args[1]).getUniqueId())));
+                   player.sendMessage("The player's money: " + args[1]  + " §ais : " + getMoney(getConnection(), Objects.requireNonNull(Bukkit.getPlayerExact(args[1]).getUniqueId())));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
