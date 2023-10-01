@@ -1,7 +1,7 @@
 name: Cconomy_Database
 version: '${project.version}'
 main: fr.fuzeblocks.cconomy_database.CconomyDatabase
-api-version: '1.16'
+api-version: '1.18'
 load: STARTUP
 authors: [fuzeblocks]
 depend:

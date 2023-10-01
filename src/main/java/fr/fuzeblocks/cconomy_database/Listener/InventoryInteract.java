@@ -33,7 +33,7 @@ public class InventoryInteract implements Listener {
         playerHead(event);
 
         if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
-            antiInteract("§aView your money", event);
+            antiInteract( LanguageManager.getConfig().getString(LanguageManager.getKey() + "InventoryName"), event);
             if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aSend money")) {
                 Player player = (Player) event.getWhoClicked();
                 if (event.getCurrentItem().getType().equals(Material.EMERALD_BLOCK)) {

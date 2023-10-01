@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,8 +23,17 @@ public class CheckDatabaseListener implements Listener {
     }
     @EventHandler
     public void onJoin(PlayerJoinEvent event) throws SQLException {
-        Player player = event.getPlayer();
-        getCr(getConnection(),player.getUniqueId(),instance.getConfig().getDouble("Config.defaultmoney"),player);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player player = event.getPlayer();
+                try {
+                    getCr(getConnection(),player.getUniqueId(),instance.getConfig().getDouble("Config.defaultmoney"),player);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }.runTaskAsynchronously(instance);
 
     }
     private Connection getConnection() throws SQLException {
