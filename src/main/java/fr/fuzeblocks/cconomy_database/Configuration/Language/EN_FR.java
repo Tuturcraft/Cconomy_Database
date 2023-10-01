@@ -15,7 +15,8 @@ public class EN_FR extends LanguageManager {
         super.addIndex(key + "InventoryName","§aVoir votre argent");
         super.addIndex(key + "PaperofMoney", "RED");
         super.addIndex(key + "Pay","§aTransaction réussis");
-        super.addIndex(key + "NoMoney","§cYou don't have enough money.");
+        super.addIndex(key + "NoMoney","§cVous n'avez pas assez d'argent.");
         super.addIndex(key + "PayInventoryName","§aMontant");
+        super.addIndex(key + "View","L'argent du joueur est de : ");
     }
 }
