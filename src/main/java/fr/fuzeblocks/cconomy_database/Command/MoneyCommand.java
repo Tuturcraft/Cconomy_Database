@@ -81,14 +81,14 @@ public class MoneyCommand implements CommandExecutor {
             if (subCommand.equalsIgnoreCase("add")) {
                 if (player.hasPermission("Cconomy.commandes.money.admin")) {
                     addMoney(getConnection(), targetUUID, money);
-                    player.sendMessage("§aYou have well add : " + money + "§a to the player : " + player.getName());
+                    player.sendMessage("§aYou have well add : " + money + "§a to the player : " + target.getName());
                 } else {
                     player.sendMessage("§cYou don't have perms");
                 }
             } else if (subCommand.equalsIgnoreCase("set")) {
                 if (player.hasPermission("Cconomy.commandes.money.admin")) {
                     setMoney(getConnection(), targetUUID, money);
-                    player.sendMessage("§aYou have well set : " + money + "§a to the player : " + player.getName());
+                    player.sendMessage("§aYou have well set : " + money + "§a to the player : " + target.getName());
                 } else {
                     player.sendMessage("§cYou don't have perms");
                 }
@@ -96,7 +96,7 @@ public class MoneyCommand implements CommandExecutor {
                 if (player.hasPermission("Cconomy.commandes.money.admin")) {
                     try {
                         removeMoney(getConnection(), targetUUID, money);
-                        player.sendMessage("§aYou have well remove : " + money + "§a to the player : " + player.getName());
+                        player.sendMessage("§aYou have well remove : " + money + "§a to the player : " + target.getName());
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
