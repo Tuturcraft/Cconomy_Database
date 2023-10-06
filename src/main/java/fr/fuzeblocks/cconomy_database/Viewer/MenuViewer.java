@@ -1,5 +1,6 @@
 package fr.fuzeblocks.cconomy_database.Viewer;
 import fr.fuzeblocks.cconomy_database.Configuration.Language.LanguageManager;
+import fr.fuzeblocks.cconomy_database.Manager.Database.Utils.DatabaseUtils;
 import fr.fuzeblocks.cconomy_database.Utils.ItemFactory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,11 +9,9 @@ import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
 
-import static fr.fuzeblocks.cconomy_database.CconomyDatabase.getConnection;
-import static fr.fuzeblocks.cconomy_database.Command.MoneyCommand.getMoney;
 
-public class MenuViewer  {
-    public static void loadMenu(Player player) {
+public class MenuViewer extends DatabaseUtils {
+    public void loadMenu(Player player) {
         YamlConfiguration config = LanguageManager.getConfig();
         ViewerManager manager = new ViewerManager(config.getString(LanguageManager.getKey() + "InventoryName"),9,player);
         try {

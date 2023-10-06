@@ -11,9 +11,12 @@ import fr.fuzeblocks.cconomy_database.Listener.InventoryInteract;
 import fr.fuzeblocks.cconomy_database.Manager.Database.CreateTable;
 import fr.fuzeblocks.cconomy_database.Manager.Database.DatabaseManager;
 import fr.fuzeblocks.cconomy_database.Manager.Database.DbConnection;
+import fr.fuzeblocks.cconomy_database.Manager.Database.Utils.DatabaseUtils;
 import fr.fuzeblocks.cconomy_database.PlaceHolder.Expansion;
 import fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer;
 import fr.fuzeblocks.cconomy_database.Update.UpdateChecker;
+import fr.fuzeblocks.cconomy_database.Update.UpdateStatus;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,6 +31,7 @@ import java.sql.SQLException;
 public final class CconomyDatabase extends JavaPlugin {
     static DatabaseManager databaseManager;
     public static LanguageStatus languageStatus;
+    public static UpdateStatus updateStatus;
 
     @Override
     public void onEnable() {
@@ -42,12 +46,14 @@ public final class CconomyDatabase extends JavaPlugin {
         } else {
             getLogger().warning("PlaceholderAPI n'est pas installé, votre extension ne fonctionnera pas correctement.");
         }
-        this.getCommand("money").setExecutor(new MoneyCommand(this));
+        this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("money").setTabCompleter(new MoneyCompleter());
         Bukkit.getPluginManager().registerEvents(new CheckDatabaseListener(this), this);
         Bukkit.getPluginManager().registerEvents(new InventoryInteract(this), this);
         Bukkit.getPluginManager().registerEvents(new ListOnlinePlayer(this), this);
         getUpdate(112899);
+        new Metrics(this, 19962);
+
     }
 
     @Override
@@ -72,8 +78,10 @@ public final class CconomyDatabase extends JavaPlugin {
         new UpdateChecker(this, id).getVersion(version -> {
             if (this.getDescription().getVersion().equals(version)) {
                 getLogger().info("There is not a new update available.");
+                updateStatus = UpdateStatus.UPDATE;
             } else {
                 getLogger().info("There is a new update available.");
+                updateStatus = UpdateStatus.UPDATE;
             }
         });
     }

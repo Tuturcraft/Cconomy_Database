@@ -1,8 +1,8 @@
 package fr.fuzeblocks.cconomy_database.Listener;
 
 import fr.fuzeblocks.cconomy_database.CconomyDatabase;
-import fr.fuzeblocks.cconomy_database.Command.MoneyCommand;
 import fr.fuzeblocks.cconomy_database.Configuration.Language.LanguageManager;
+import fr.fuzeblocks.cconomy_database.Manager.Database.Utils.DatabaseUtils;
 import fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer;
 import fr.fuzeblocks.cconomy_database.Utils.ItemFactory;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import static fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer.updateInventory;
 
-public class InventoryInteract implements Listener {
+public class InventoryInteract extends DatabaseUtils implements Listener {
     private CconomyDatabase instance;
     private String ClickedHead;
 
@@ -112,9 +112,9 @@ public class InventoryInteract implements Listener {
             switch (event.getCurrentItem().getItemMeta().getDisplayName().toString()) {
                 case "§a0.5":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 0.5) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 0.5);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 0.5);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 0.5) {
+                            removeMoney(getConnection(), player.getUniqueId(), 0.5);
+                            addMoney(getConnection(), uuid, 0.5);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));
@@ -125,9 +125,9 @@ public class InventoryInteract implements Listener {
                     break;
                 case "§a1.0":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 1.0) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 1.0);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 1.0);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 1.0) {
+                            removeMoney(getConnection(), player.getUniqueId(), 1.0);
+                            addMoney(getConnection(), uuid, 1.0);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));
@@ -138,9 +138,9 @@ public class InventoryInteract implements Listener {
                     break;
                 case "§a5.0":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 5.0) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 5.0);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 5.0);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 5.0) {
+                            removeMoney(getConnection(), player.getUniqueId(), 5.0);
+                            addMoney(getConnection(), uuid, 5.0);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));
@@ -153,9 +153,9 @@ public class InventoryInteract implements Listener {
 
                 case "§a10.0":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 10.0) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 10.0);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 10.0);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 10.0) {
+                            removeMoney(getConnection(), player.getUniqueId(), 10.0);
+                            addMoney(getConnection(), uuid, 10.0);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));
@@ -167,9 +167,9 @@ public class InventoryInteract implements Listener {
 
                 case "§a500.0":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 500.0) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 1000.0);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 1000.0);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 500.0) {
+                            removeMoney(getConnection(), player.getUniqueId(), 1000.0);
+                            addMoney(getConnection(), uuid, 1000.0);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));
@@ -181,9 +181,9 @@ public class InventoryInteract implements Listener {
 
                 case "§a1000.0":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 1000.0) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 1000.0);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 1000.0);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 1000.0) {
+                            removeMoney(getConnection(), player.getUniqueId(), 1000.0);
+                            addMoney(getConnection(), uuid, 1000.0);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));
@@ -194,9 +194,9 @@ public class InventoryInteract implements Listener {
                     break;
                 case "§a5000.0":
                     try {
-                        if (MoneyCommand.getMoney(CconomyDatabase.getConnection(), player.getUniqueId()) >= 5000.0) {
-                            MoneyCommand.removeMoney(CconomyDatabase.getConnection(), player.getUniqueId(), 5000.0);
-                            MoneyCommand.addMoney(CconomyDatabase.getConnection(), uuid, 5000.0);
+                        if (getMoney(getConnection(), player.getUniqueId()) >= 5000.0) {
+                            removeMoney(getConnection(), player.getUniqueId(), 5000.0);
+                            addMoney(getConnection(), uuid, 5000.0);
                             player.sendMessage(config.getString(key + "Pay"));
                         } else {
                             player.sendMessage(config.getString(key + "NoMoney"));

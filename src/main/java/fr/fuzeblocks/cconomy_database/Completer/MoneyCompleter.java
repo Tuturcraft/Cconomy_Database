@@ -18,6 +18,7 @@ public class MoneyCompleter implements TabCompleter {
                     this.args.add("add");
                     this.args.add("set");
                     this.args.add("remove");
+                    this.args.add("maj");
                 }
                 this.args.add("solde");
                 this.args.add("menu");
