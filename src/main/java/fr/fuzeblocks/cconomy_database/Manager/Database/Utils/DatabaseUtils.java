@@ -2,6 +2,8 @@ package fr.fuzeblocks.cconomy_database.Manager.Database.Utils;
 
 import fr.fuzeblocks.cconomy_database.CconomyDatabase;
 import fr.fuzeblocks.cconomy_database.Manager.Database.DbConnection;
+import org.bukkit.Effect;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -97,5 +99,11 @@ public class DatabaseUtils {
                 }
             }
         }
+    }
+    protected void playSound(Player player, Sound sound) {
+        player.playSound(player.getLocation(),sound,10,10);
+    }
+    protected void playEffect(Player player, Effect effect,Object data) {
+        player.playEffect(player.getLocation(),effect,data);
     }
 }

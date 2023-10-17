@@ -6,7 +6,9 @@ import fr.fuzeblocks.cconomy_database.Manager.Database.Utils.DatabaseUtils;
 import fr.fuzeblocks.cconomy_database.Server.ListOnlinePlayer;
 import fr.fuzeblocks.cconomy_database.Utils.ItemFactory;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
 import java.util.UUID;
@@ -37,14 +40,18 @@ public class InventoryInteract extends DatabaseUtils implements Listener {
             if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aSend money")) {
                 Player player = (Player) event.getWhoClicked();
                 if (event.getCurrentItem().getType().equals(Material.EMERALD_BLOCK)) {
-                    ListOnlinePlayer listOnlinePlayer = new ListOnlinePlayer(player, "§aSendMoney", instance);
+                     new ListOnlinePlayer(player, "§aSendMoney", instance);
                 }
             }
         }
 
         if (event.getView().getTitle().equals("§aMontant")) {
             event.setCancelled(true);
-            getMontant(event);
+            try {
+                getMontant(event);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         Inventory clickedInventory = event.getClickedInventory();
@@ -71,7 +78,7 @@ public class InventoryInteract extends DatabaseUtils implements Listener {
         }
     }
 
-    public void antiInteract(String name, InventoryClickEvent event) {
+    public void antiInteract(String name, @NotNull InventoryClickEvent event) {
         if (event.getView().getTitle().equalsIgnoreCase(name)) {
             event.setCancelled(true);
         }
@@ -80,7 +87,7 @@ public class InventoryInteract extends DatabaseUtils implements Listener {
         }
     }
 
-    public void playerHead(InventoryClickEvent event) {
+    public void playerHead(@NotNull InventoryClickEvent event) {
         if (event.getView().getTitle().equals(ListOnlinePlayer.name)) {
             if (event.getCurrentItem() != null && event.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
                 if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
@@ -103,7 +110,7 @@ public class InventoryInteract extends DatabaseUtils implements Listener {
         }
     }
 
-    public void getMontant(InventoryClickEvent event) {
+    public void getMontant(@NotNull InventoryClickEvent event) throws SQLException {
         if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getType().equals(Material.PAPER)) {
             UUID uuid = Bukkit.getPlayerExact(ClickedHead).getUniqueId();
             Player player = (Player) event.getWhoClicked();
@@ -111,102 +118,41 @@ public class InventoryInteract extends DatabaseUtils implements Listener {
             String key = LanguageManager.getKey();
             switch (event.getCurrentItem().getItemMeta().getDisplayName().toString()) {
                 case "§a0.5":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 0.5) {
-                            removeMoney(getConnection(), player.getUniqueId(), 0.5);
-                            addMoney(getConnection(), uuid, 0.5);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player,0.5,uuid,config,key);
                     break;
                 case "§a1.0":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 1.0) {
-                            removeMoney(getConnection(), player.getUniqueId(), 1.0);
-                            addMoney(getConnection(), uuid, 1.0);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player,1.0,uuid,config,key);
                     break;
                 case "§a5.0":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 5.0) {
-                            removeMoney(getConnection(), player.getUniqueId(), 5.0);
-                            addMoney(getConnection(), uuid, 5.0);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player,5.0,uuid,config,key);
                     break;
-
-
                 case "§a10.0":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 10.0) {
-                            removeMoney(getConnection(), player.getUniqueId(), 10.0);
-                            addMoney(getConnection(), uuid, 10.0);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player,10.0,uuid,config,key);
                     break;
 
                 case "§a500.0":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 500.0) {
-                            removeMoney(getConnection(), player.getUniqueId(), 1000.0);
-                            addMoney(getConnection(), uuid, 1000.0);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player,500.0,uuid,config,key);
                     break;
 
                 case "§a1000.0":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 1000.0) {
-                            removeMoney(getConnection(), player.getUniqueId(), 1000.0);
-                            addMoney(getConnection(), uuid, 1000.0);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player, 1000.0, uuid, config, key);
                     break;
                 case "§a5000.0":
-                    try {
-                        if (getMoney(getConnection(), player.getUniqueId()) >= 5000.0) {
-                            removeMoney(getConnection(), player.getUniqueId(), 5000.0);
-                            addMoney(getConnection(), uuid, 5000.0);
-                            player.sendMessage(config.getString(key + "Pay"));
-                        } else {
-                            player.sendMessage(config.getString(key + "NoMoney"));
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    pay(player, 5000.0, uuid, config, key);
                     break;
-
             }
+        }
+    }
+    private void pay(@NotNull Player player, double mountant, UUID uuid, YamlConfiguration config, String key) throws SQLException {
+        if (getMoney(getConnection(), player.getUniqueId()) >= mountant) {
+            removeMoney(getConnection(), player.getUniqueId(), mountant);
+            addMoney(getConnection(), uuid, mountant);
+            player.sendMessage(config.getString(key + "Pay"));
+            playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP);
+            playEffect(player, Effect.MOBSPAWNER_FLAMES,1000);
+        } else {
+            player.sendMessage(config.getString(key + "NoMoney"));
+            playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS);
         }
     }
 }
