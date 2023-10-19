@@ -15,15 +15,14 @@ public class DbCredentials {
         this.port = port;
     }
     public String toURI() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("jdbc:mysql://")
-                .append(host)
-                .append(":")
-                .append(port)
-                .append("/")
-                .append(databasename);
-
-        return builder.toString();
+        String builder = "jdbc:mysql://" +
+                host +
+                ":" +
+                port +
+                "/" +
+                databasename +
+                "?autoReconnect=true";
+        return builder;
     }
 
     public String getHost() {
