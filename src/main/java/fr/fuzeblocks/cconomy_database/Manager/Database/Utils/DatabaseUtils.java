@@ -26,9 +26,7 @@ public class DatabaseUtils {
             preparedStatement.setString(3, player.getName());
             preparedStatement.executeUpdate();
             Logger.getLogger("Cconomy").info("Successfully created for : " + player.getName());
-            preparedStatement.close();
         }
-        getmoney.close();
     }
     protected Connection getConnection()  {
         final DbConnection moneyconnection = CconomyDatabase.getDatabaseManager().getMoneyconnection();
